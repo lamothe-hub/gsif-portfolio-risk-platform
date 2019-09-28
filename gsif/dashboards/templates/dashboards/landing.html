@@ -1,0 +1,314 @@
+{% load static %}
+
+<!doctype html>
+
+
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'metrics/css/metrics.css' %}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <title>GSIF</title>
+  </head>
+
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-static-top">
+    	<div style="padding-left:40px; padding-right:80px;">
+    		<div class="navbar-header">
+    			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+    				<span class="sr-only">Toggle navigation</span>
+    				<span class="icon-bar"></span>
+    				<span class="icon-bar"></span>
+    				<span class="icon-bar"></span>
+    			</button>
+    			<a class="navbar-brand" href='{% url 'landing' %}' style="color:white;">Gator Student Investment Fund</a>
+    		</div>
+            <div class="collapse navbar-collapse" id="myNav">
+                <ul class="nav navbar-nav navbar-right">
+                    {% if userAuthenticated %}
+                    <li><a href='{% url 'portfolio_select' %}'>Portfolio</a></li>
+                    {% endif %}
+                    <li><a href='{% url 'table' %}'>Table</a></li>
+                    <li><a href='{% url 'tev_dates' %}'>TEV Visualization</a></li>
+                    {% if userAuthenticated %}
+                    <li><a href='{% url 'login' %}'>Sign Out</a></li>
+                    {% else %}
+                    <li><a href='{% url 'login' %}'>Sign In</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!--
+    <div style="padding-left: 20%; padding-right: 20%;">
+    <br>
+    <h1 align="center" style="font-size: 80px;">Portfolio</h1><br>
+    </div>
+    -->
+    <br><br>
+
+    <script>
+
+    var dates_string_pre = '{{request.session.dates_axis}}';
+    var dates_string = dates_string_pre.slice(1,-1)
+    var dates_array = dates_string.split(",");
+
+    </script>
+
+    <div id="myDiv">
+            <script>
+
+            var trace1 = {
+                x: dates_array,
+                y: {{request.session.holdings_data}},
+                mode: 'lines+markers',
+                name: 'Holdings Returns',
+            };
+
+            var trace2 = {
+                x: dates_array,
+                y: {{request.session.benchmarks_data}},
+                mode: 'lines+markers',
+                name: 'Benchmarks Returns',
+            }
+
+            var data = [trace1, trace2];
+
+            var layout = {
+                title: 'Portfolio - All Sectors',
+                yaxis: {
+                    title: 'Dollars',
+                },
+                xaxis: {
+                    title: "Date"
+                }
+            }
+            Plotly.newPlot('myDiv', data, layout, {showSendToCloud: true});
+            </script>
+            <br>
+            <hr>
+            <br>
+            <hr>
+            <br>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div id="energy">
+                    <script>
+                    var trace1 = {
+                        x: dates_array,
+                        y: {{request.session.energy_h_returns}},
+                        mode: 'lines+markers',
+                        name: 'Holdings Returns',
+                    };
+
+                    var trace2 = {
+                        x: dates_array,
+                        y: {{request.session.energy_b_returns}},
+                        mode: 'lines+markers',
+                        name: 'Benchmarks',
+                    }
+
+                    var data = [trace1, trace2];
+
+                    var layout = {
+                        title: 'Energy',
+
+                        yaxis: {
+                            title: 'Dollars'
+                        },
+
+                    }
+                    Plotly.newPlot('energy', data, layout, {showSendToCloud: true});
+                    </script>
+                    <hr>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div id="healthcare">
+                <script>
+                var trace1 = {
+                    x: dates_array,
+                    y: {{request.session.healthcare_h_returns}},
+                    mode: 'lines+markers',
+                    name: 'Holdings Returns',
+                };
+
+                var trace2 = {
+                    x: dates_array,
+                    y: {{request.session.healthcare_b_returns}},
+                    mode: 'lines+markers',
+                    name: 'Benchmarks Returns',
+                }
+
+                var data = [trace1, trace2];
+
+                var layout = {
+                    title: 'Healthcare',
+
+                    yaxis: {
+                        title: 'Dollars'
+                    },
+
+                }
+                Plotly.newPlot('healthcare', data, layout, {showSendToCloud: true});
+                </script>
+                <hr>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div id="tech">
+                    <script>
+                    var trace1 = {
+                        x: dates_array,
+                        y: {{request.session.tech_h_returns}},
+                        mode: 'lines+markers',
+                        name: 'Holdings Returns',
+                    };
+
+                    var trace2 = {
+                        x: dates_array,
+                        y: {{request.session.tech_b_returns}},
+                        mode: 'lines+markers',
+                        name: 'Benchmarks',
+                    }
+
+                    var data = [trace1, trace2];
+
+                    var layout = {
+                        title: 'Tech',
+
+                        yaxis: {
+                            title: 'Dollars'
+                        },
+
+                    }
+                    Plotly.newPlot('tech', data, layout, {showSendToCloud: true});
+                    </script>
+                    <hr>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div id="financials">
+                <script>
+                var trace1 = {
+                    x: dates_array,
+                    y: {{request.session.financials_h_returns}},
+                    mode: 'lines+markers',
+                    name: 'Holdings Returns',
+                };
+
+                var trace2 = {
+                    x: dates_array,
+                    y: {{request.session.financials_b_returns}},
+                    mode: 'lines+markers',
+                    name: 'Benchmarks Returns',
+                }
+
+                var data = [trace1, trace2];
+
+                var layout = {
+                    title: 'Financials',
+
+                    yaxis: {
+                        title: 'Dollars'
+                    },
+
+                }
+                Plotly.newPlot('financials', data, layout, {showSendToCloud: true});
+                </script>
+                <hr>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div id="consumers">
+                    <script>
+                    var trace1 = {
+                        x: dates_array,
+                        y: {{request.session.consumers_h_returns}},
+                        mode: 'lines+markers',
+                        name: 'Holdings Returns',
+                    };
+
+                    var trace2 = {
+                        x: dates_array,
+                        y: {{request.session.consumers_b_returns}},
+                        mode: 'lines+markers',
+                        name: 'Benchmarks',
+                    }
+
+                    var data = [trace1, trace2];
+
+                    var layout = {
+                        title: 'Consumers',
+
+                        yaxis: {
+                            title: 'Dollars'
+                        },
+
+                    }
+                    Plotly.newPlot('consumers', data, layout, {showSendToCloud: true});
+                    </script>
+                    <hr>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div id="industrials">
+                <script>
+                var trace1 = {
+                    x: dates_array,
+                    y: {{request.session.industrials_h_returns}},
+                    mode: 'lines+markers',
+                    name: 'Holdings Returns',
+                };
+
+                var trace2 = {
+                    x: dates_array,
+                    y: {{request.session.industrials_b_returns}},
+                    mode: 'lines+markers',
+                    name: 'Benchmarks Returns',
+                }
+
+                var data = [trace1, trace2];
+
+                var layout = {
+                    title: 'Industrials',
+
+                    yaxis: {
+                        title: 'Dollars'
+                    },
+
+                }
+                Plotly.newPlot('industrials', data, layout, {showSendToCloud: true});
+                </script>
+                <hr>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  </body>
+</html>

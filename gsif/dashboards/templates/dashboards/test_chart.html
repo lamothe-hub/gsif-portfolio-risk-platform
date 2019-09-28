@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <!-- Plotly.js -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+
+<body>
+    <div id="myDiv">
+            <script>
+            var trace1 = {
+                x: ['a','b','c','d','e'],
+                y: [1,2,3,4,5],
+                mode: 'lines+markers',
+                name: 'Holdings Returns',
+            };
+
+            var trace2 = {
+                x: ['a','b','c','d','e'],
+                y: [5,4,3,2,1],
+                mode: 'lines+markers',
+                name: 'Benchmarks Returns',
+            }
+
+            var data = [trace1, trace2];
+
+            var layout = {
+                title: 'Portfolio - All Sectors',
+                yaxis: {
+                    title: 'Dollars'
+                },
+            }
+            Plotly.newPlot('myDiv', data, layout, {showSendToCloud: true});
+            </script>
+
+</body>
+</html>

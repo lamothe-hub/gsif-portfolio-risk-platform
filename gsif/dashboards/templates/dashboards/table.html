@@ -1,0 +1,310 @@
+{% load static %}
+
+<!doctype html>
+
+
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'metrics/css/metrics.css' %}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <title>GSIF</title>
+  </head>
+
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-static-top">
+        <div style="padding-left:40px; padding-right:80px;">
+    		<div class="navbar-header">
+    			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+    				<span class="sr-only">Toggle navigation</span>
+    				<span class="icon-bar"></span>
+    				<span class="icon-bar"></span>
+    				<span class="icon-bar"></span>
+    			</button>
+    			<a class="navbar-brand" href='{% url 'landing' %}' style="color:white;">Gator Student Investment Fund</a>
+    		</div>
+            <div class="collapse navbar-collapse" id="myNav">
+                <ul class="nav navbar-nav navbar-right">
+                    {% if userAuthenticated %}
+                    <li><a href='{% url 'portfolio_select' %}'>Portfolio</a></li>
+                    {% endif %}
+                    <li><a href='{% url 'table' %}'>Table</a></li>
+                    <li><a href='{% url 'tev_dates' %}'>TEV Visualization</a></li>
+                    {% if userAuthenticated %}
+                    <li><a href='{% url 'login' %}'>Sign Out</a></li>
+                    {% else %}
+                    <li><a href='{% url 'login' %}'>Sign In</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+<div class="container">
+<h3 align='center'>Energy</h3><br>
+<table class="table table-striped">
+  <tbody>
+    <tr>
+      <th scope="row">Ticker:</th>
+      {% for ticker in energy_tickers %}
+      <th>{{ ticker }}</th>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Shares:</th>
+      {% for share in energy_shares %}
+      <td>{{ share }}</td>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Original Value:</th>
+      {% for value in energy_original_values %}
+      <td>{{ value }}</td>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Current Value:</th>
+      {% for value in energy_current_values %}
+      <td>{{ value }}</td>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Percent Increase:</th>
+      {% for value in energy_percent_changes %}
+      <td>{{ value }}</td>
+      {% endfor %}
+    </tr>
+
+  </tbody>
+</table>
+</div>
+
+<div class="container">
+<h3 align='center'>Tech</h3><br>
+<table class="table table-striped">
+  <tbody>
+    <tr>
+      <th scope="row">Ticker:</th>
+      {% for ticker in tech_tickers %}
+      <th>{{ ticker }}</th>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Shares:</th>
+      {% for share in tech_shares %}
+      <td>{{ share }}</td>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Original Value:</th>
+      {% for value in tech_original_values %}
+      <td>{{ value }}</td>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Current Value:</th>
+      {% for value in tech_current_values %}
+      <td>{{ value }}</td>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Percent Increase:</th>
+      {% for value in tech_percent_changes %}
+      <td>{{ value }}</td>
+      {% endfor %}
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="container">
+<h3 align='center'>Financials</h3><br>
+<table class="table table-striped">
+  <tbody>
+    <tr>
+      <th scope="row">Ticker:</th>
+      {% for ticker in financials_tickers %}
+      <th>{{ ticker }}</th>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Shares:</th>
+      {% for share in financials_shares %}
+      <td>{{ share }}</td>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Original Value:</th>
+      {% for value in financials_original_values %}
+      <td>{{ value }}</td>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Current Value:</th>
+      {% for value in financials_current_values %}
+      <td>{{ value }}</td>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Percent Increase:</th>
+      {% for value in financials_percent_changes %}
+      <td>{{ value }}</td>
+      {% endfor %}
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="container">
+<h3 align='center'>Industrials</h3><br>
+<table class="table table-striped">
+  <tbody>
+    <tr>
+      <th scope="row">Ticker:</th>
+      {% for ticker in industrials_tickers %}
+      <th>{{ ticker }}</th>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Shares:</th>
+      {% for share in industrials_shares %}
+      <td>{{ share }}</td>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Original Value:</th>
+      {% for value in industrials_original_values %}
+      <td>{{ value }}</td>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Current Value:</th>
+      {% for value in industrials_current_values %}
+      <td>{{ value }}</td>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Percent Increase:</th>
+      {% for value in industrials_percent_changes %}
+      <td>{{ value }}</td>
+      {% endfor %}
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="container">
+<h3 align='center'>Consumers</h3><br>
+<table class="table table-striped">
+  <tbody>
+    <tr>
+      <th scope="row">Ticker:</th>
+      {% for ticker in consumers_tickers %}
+      <th>{{ ticker }}</th>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Shares:</th>
+      {% for share in consumers_shares %}
+      <td>{{ share }}</td>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Original Value:</th>
+      {% for value in consumers_original_values %}
+      <td>{{ value }}</td>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Current Value:</th>
+      {% for value in consumers_current_values %}
+      <td>{{ value }}</td>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Percent Increase:</th>
+      {% for value in consumers_percent_changes %}
+      <td>{{ value }}</td>
+      {% endfor %}
+    </tr>
+
+  </tbody>
+</table>
+</div>
+
+<div class="container">
+<h3 align='center'>Healthcare</h3><br>
+<table class="table table-striped">
+  <tbody>
+    <tr>
+      <th scope="row">Ticker:</th>
+      {% for ticker in healthcare_tickers %}
+      <th>{{ ticker }}</th>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Shares:</th>
+      {% for share in healthcare_shares %}
+      <td>{{ share }}</td>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Original Value:</th>
+      {% for value in healthcare_original_values %}
+      <td>{{ value }}</td>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      <th scope="row">Current Value:</th>
+      {% for value in healthcare_current_values %}
+      <td>{{ value }}</td>
+      {% endfor %}
+    </tr>
+    <tr>
+      <th scope="row">Percent Increase:</th>
+      {% for value in healthcare_percent_changes %}
+      <td>{{ value }}</td>
+      {% endfor %}
+    </tr>
+
+  </tbody>
+</table>
+</div>
+<br><br><br>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  </body>
+</html>
